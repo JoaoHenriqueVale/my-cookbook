@@ -18,6 +18,7 @@ feature 'User update recipe' do
                           method: 'Cozinhe a cenoura, corte em pedaços pequenos, misture com o restante dos ingredientes', user: user)
 
     # simula a ação do usuário
+    login_as(user, :scope => :user)
     visit root_path
     click_on 'Bolodecenoura'
     click_on 'Editar'
@@ -59,6 +60,7 @@ feature 'User update recipe' do
                           method: 'Cozinhe a cenoura, corte em pedaços pequenos, misture com o restante dos ingredientes', user: user)
 
     # simula a ação do usuário
+    login_as(user, :scope => :user)
     visit root_path
     click_on 'Bolodecenoura'
     click_on 'Editar'
@@ -73,4 +75,47 @@ feature 'User update recipe' do
 
     expect(page).to have_content('Você deve informar todos os dados da receita')
   end
+
+  scenario 'user only can edit your own recipes' do
+    arabian_cuisine = Cuisine.create(name: 'Arabe')
+    brazilian_cuisine = Cuisine.create(name: 'Brasileira')
+    user = User.create(email: 'rogerio.bispo@yahoo.com.br', password: '123456')
+    user2 = User.create(email: 'joao@yahoo.com.br', password: '123456')
+    appetizer_type = RecipeType.create(name: 'Entrada')
+    main_type = RecipeType.create(name: 'Prato Principal')
+    dessert_type = RecipeType.create(name: 'Sobremesa')
+
+    recipe = Recipe.create(title: 'Bolodecenoura', recipe_type: main_type,
+                          cuisine: arabian_cuisine, difficulty: 'Médio',
+                          cook_time: 50,
+                          ingredients: 'Farinha, açucar, cenoura',
+                          method: 'Cozinhe a cenoura, corte em pedaços pequenos, misture com o restante dos ingredientes', user: user)
+    login_as(user2, :scope => :user)
+
+    visit root_path
+    click_on 'Bolodecenoura'
+    expect(page).not_to have_link('Editar')
+  end
+
+  scenario 'user access edit for routes' do
+    arabian_cuisine = Cuisine.create(name: 'Arabe')
+    brazilian_cuisine = Cuisine.create(name: 'Brasileira')
+    user = User.create(email: 'rogerio.bispo@yahoo.com.br', password: '123456')
+    user2 = User.create(email: 'joao@yahoo.com.br', password: '123456')
+    appetizer_type = RecipeType.create(name: 'Entrada')
+    main_type = RecipeType.create(name: 'Prato Principal')
+    dessert_type = RecipeType.create(name: 'Sobremesa')
+
+    recipe = Recipe.create(title: 'Bolodecenoura', recipe_type: main_type,
+                          cuisine: arabian_cuisine, difficulty: 'Médio',
+                          cook_time: 50,
+                          ingredients: 'Farinha, açucar, cenoura',
+                          method: 'Cozinhe a cenoura, corte em pedaços pequenos, misture com o restante dos ingredientes', user: user)
+    login_as(user2, :scope => :user)
+
+    visit edit_recipe_path(recipe)
+    expect(current_path).to eq root_path  
+
+  end
+
 end

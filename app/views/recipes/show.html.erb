@@ -9,5 +9,7 @@
 <h3>Como Preparar</h3>
 <p><%= @recipe.method %></p>
 
-<%= link_to 'Editar', edit_recipe_path(@recipe), class: 'btn btn-primary' %>
+<% if(@belongs_user)%>
+  <%= link_to 'Editar', edit_recipe_path(@recipe), class: 'btn btn-primary' %>
+<% end %>
 <%= link_to 'Voltar', root_path, class: 'btn btn-default' %>

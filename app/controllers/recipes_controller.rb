@@ -1,7 +1,12 @@
 class RecipesController < ApplicationController
-  before_action :authenticate_user!, only: [:new]
+  before_action :authenticate_user!, only: [:new, :edit, :update]
+  before_action :populates_var, only: [:show, :edit, :new]
+  before_action :find_recipe, only: [:show, :edit]
   def show
-    @recipe = Recipe.find(params[:id])
+
+    if user_signed_in?
+      @belongs_user = is_user_recipe
+    end
   end
 
   def by_user
@@ -13,8 +18,6 @@ class RecipesController < ApplicationController
   end
 
   def new
-    @cuisines = Cuisine.all
-    @recipe_types = RecipeType.all
     @recipe = Recipe.new
   end
 
@@ -31,9 +34,7 @@ class RecipesController < ApplicationController
   end
 
   def edit
-    @cuisines = Cuisine.all
-    @recipe_types = RecipeType.all
-    @recipe = Recipe.find(params[:id])
+    redirect_to root_path unless  is_user_recipe
   end
 
   def update
@@ -58,5 +59,19 @@ class RecipesController < ApplicationController
   def recipe_params
     params.require(:recipe).permit(:title, :recipe_type_id, :cuisine_id, :difficulty,
                                   :cook_time, :ingredients, :method)
+  end
+
+  def is_user_recipe
+    current_user.recipes.include?(@recipe)
+  end
+
+  def find_recipe
+    @recipe = Recipe.find(params[:id])
+
+  end
+
+  def populates_var
+    @cuisines = Cuisine.all
+    @recipe_types = RecipeType.all
   end
 end
