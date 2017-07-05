@@ -7,8 +7,15 @@ feature 'Visitor register recipe' do
     RecipeType.create(name: 'Entrada')
     RecipeType.create(name: 'Prato Principal')
     RecipeType.create(name: 'Sobremesa')
+    User.create(email: 'rogerio.bispo@yahoo.com.br',password: '123456')
     # simula a ação do usuário
     visit root_path
+    click_on 'Login'
+    fill_in 'Email', with: 'rogerio.bispo@yahoo.com.br'
+    fill_in 'Senha', with: '123456'
+
+    click_on 'Enviar'
+
     click_on 'Enviar uma receita'
 
     fill_in 'Título', with: 'Tabule'
@@ -33,11 +40,25 @@ feature 'Visitor register recipe' do
     expect(page).to have_css('p', text:  'Misturar tudo e servir. Adicione limão a gosto.')
   end
 
+  scenario 'and must fill in login' do
+
+    visit root_path
+    click_on 'Enviar uma receita'
+
+    expect(page).to have_css('h2', text:'Log in')
+  end
+
   scenario 'and must fill in all fields' do
     #cria os dados necessários, nesse caso não vamos criar dados no banco
+    User.create(email: 'rogerio.bispo@yahoo.com.br',password: '123456')
     Cuisine.create(name: 'Arabe')
     # simula a ação do usuário
     visit root_path
+    click_on 'Login'
+    fill_in 'Email', with:'rogerio.bispo@yahoo.com.br'
+    fill_in 'Senha', with:'123456'
+    click_on 'Enviar'
+    
     click_on 'Enviar uma receita'
 
     fill_in 'Título', with: ''

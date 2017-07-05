@@ -6,14 +6,14 @@ feature 'Visitor view only recent recipes on home page' do
     #cria os dados necessários
     old_recipe = create_recipe('Old Recipe')
     5.times { create_recipe('Another Recipes') }
-
+    user = User.create(email: 'rogerio.bispo@yahoo.com.br',password: '123456')
     cuisine = Cuisine.create(name: 'Brasileira')
     recipe_type = RecipeType.create(name: 'Sobremesa')
     recent_recipe = Recipe.create(title: 'Bolo de cenoura', recipe_type: recipe_type,
                           cuisine: cuisine, difficulty: 'Médio',
                           ingredients: 'Cenoura, acucar, oleo e chocolate',
                           method: 'Misturar tudo, bater e assar',
-                          cook_time: 60)
+                          cook_time: 60,user:user)
 
     # simula a ação do usuário
     visit root_path
@@ -31,14 +31,14 @@ feature 'Visitor view only recent recipes on home page' do
     #cria os dados necessários
     old_recipe = create_recipe('Old Recipe')
     6.times { create_recipe('Another Recipes') }
-
+    user = User.create(email: 'rogerio.bispo@yahoo.com.br',password: '123456')
     cuisine = Cuisine.create(name: 'Brasileira')
     recipe_type = RecipeType.create(name: 'Sobremesa')
     recent_recipe = Recipe.create(title: 'Bolo de cenoura', recipe_type: recipe_type,
                           cuisine: cuisine, difficulty: 'Médio',
                           ingredients: 'Cenoura, acucar, oleo e chocolate',
                           method: 'Misturar tudo, bater e assar',
-                          cook_time: 60)
+                          cook_time: 60,user:user)
 
     # simula a ação do usuário
     visit root_path
@@ -63,11 +63,12 @@ feature 'Visitor view only recent recipes on home page' do
   def create_recipe(recipe_name)
     generic_cuisine = create_cuisine
     generic_type = RecipeType.create(name: 'Generic Recipe Type')
+    user = User.create(email: 'rogerio.bispo@yahoo.com.br',password: '123456')
     Recipe.create(title: recipe_name, recipe_type: generic_type,
                   cuisine: generic_cuisine, difficulty: 'Facil',
                   ingredients: 'Ingredientes em lista',
                   method: 'Passo a passo do preparo',
-                  cook_time: 60)
+                  cook_time: 60, user:user)
 
   end
 

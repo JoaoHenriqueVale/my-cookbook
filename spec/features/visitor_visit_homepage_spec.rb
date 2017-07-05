@@ -12,11 +12,12 @@ feature 'Visitor visit homepage' do
     #cria os dados necessários
     cuisine = Cuisine.create(name: 'Brasileira')
     recipe_type = RecipeType.create(name: 'Sobremesa')
+    user = User.create(email: 'rogerio.bispo@yahoo.com.br',password: '123456')
     recipe = Recipe.create(title: 'Bolo de cenoura', recipe_type: recipe_type,
-                          cuisine: cuisine, difficulty: 'Médio', 
+                          cuisine: cuisine, difficulty: 'Médio',
                           ingredients: 'Cenoura, acucar, oleo e chocolate',
                           method: 'Misturar tudo, bater e assar',
-                          cook_time: 60)
+                          cook_time: 60,user:user)
 
     # simula a ação do usuário
     visit root_path
@@ -33,18 +34,19 @@ feature 'Visitor visit homepage' do
     #cria os dados necessários
     cuisine = Cuisine.create(name: 'Brasileira')
     recipe_type = RecipeType.create(name: 'Sobremesa')
+    user = User.create(email: 'rogerio.bispo@yahoo.com.br',password: '123456')
     recipe = Recipe.create(title: 'Bolo de cenoura', recipe_type: recipe_type,
                           cuisine: cuisine, difficulty: 'Médio',
                           ingredients: 'Cenoura, acucar, oleo e chocolate',
                           method: 'Misturar tudo, bater e assar',
-                          cook_time: 60)
+                          cook_time: 60,user:user)
 
     another_recipe_type = RecipeType.create(name: 'Prato Principal')
     another_recipe = Recipe.create(title: 'Feijoada', recipe_type: another_recipe_type,
                           cuisine: cuisine, difficulty: 'Difícil',
                           ingredients: 'Feijao, paio, carne seca',
                           method: 'Cozinhar o feijao e refogar com as carnes já preparadas',
-                          cook_time: 90)
+                          cook_time: 90,user:user)
 
     # simula a ação do usuário
     visit root_path

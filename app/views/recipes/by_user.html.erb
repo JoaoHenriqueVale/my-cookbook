@@ -1,0 +1,7 @@
+<h1>Minhas receitas</h1>
+<% @recipes.each do |recipe| %>
+  <h1><%= recipe.title %></h1>
+  <p><%= recipe.cuisine.name %>
+  <p><%= recipe.difficulty %>
+  <p> Tempo de preparo: <%= recipe.cook_time %>  
+<% end %>
