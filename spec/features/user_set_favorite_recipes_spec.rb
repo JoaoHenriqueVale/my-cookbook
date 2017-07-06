@@ -15,13 +15,17 @@ feature 'User favorite recipe' do
                           cook_time: 50,
                           ingredients: 'Farinha, açucar, cenoura',
                           method: 'Cozinhe a cenoura, corte em pedaços pequenos, misture com o restante dos ingredientes', user: user)
-
+  login_as(user, :scope => :user)
   visit root_path
   click_on 'Bolodecenoura'
   click_on 'Favoritar'
 
   expect(page).to have_css('h1',text:'Minhas Receitas Favoritas')
   expect(page).to have_css('p',text:'Bolodecenoura')
+  end
 
+  scenario 'access url favorite' do
+    visit favorites_recipes_path
+    expect(current_path).to eq root_path
   end
 end

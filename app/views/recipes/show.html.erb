@@ -1,4 +1,4 @@
-<h1><%= @recipe.title %></h1>
+<h1><%= @recipe.title %></h1><%=link_to 'Favoritar', favorite_recipe_path, method: :post%>
 <h3>Detalhes</h3>
 <p><%= @recipe.recipe_type.name %></p>
 <p><%= @recipe.cuisine.name %></p>

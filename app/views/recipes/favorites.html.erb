@@ -1,0 +1,4 @@
+<h1>Minhas Receitas Favoritas</h1>
+<% current_user.favorite_recipes.each do |fav| %>
+  <p><%= fav.title%></p>
+<% end %>

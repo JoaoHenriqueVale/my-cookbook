@@ -2,6 +2,18 @@ class RecipesController < ApplicationController
   before_action :authenticate_user!, only: [:new, :edit, :update]
   before_action :populates_var, only: [:show, :edit, :new]
   before_action :find_recipe, only: [:show, :edit]
+
+
+  def favorite
+
+    Favorite.create(user:current_user,recipe:Recipe.find(params[:id]))
+    redirect_to favorites_recipes_path
+  end
+
+  def favorites
+    redirect_to root_path unless current_user
+  end
+
   def show
 
     if user_signed_in?
